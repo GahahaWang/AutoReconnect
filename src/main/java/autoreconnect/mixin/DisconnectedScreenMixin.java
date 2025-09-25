@@ -66,7 +66,7 @@ public class DisconnectedScreenMixin extends Screen {
         baseButtonY = null;
 
         reconnectButton = Button.builder(
-                        Component.translatable("text.autoreconnect.disconnect.reconnect"),
+                        Component.translatable("Component.autoreconnect.disconnect.reconnect"),
                         btn -> AutoReconnect.schedule(() -> Minecraft.getInstance().execute(this::manualReconnect), 100, TimeUnit.MILLISECONDS)).build();
         addRenderableWidget(reconnectButton);
 
@@ -137,7 +137,7 @@ public class DisconnectedScreenMixin extends Screen {
         shouldAutoReconnect = false;
         removeWidget(cancelButton);
         reconnectButton.active = true; // in case it was deactivated after running out of attempts
-        reconnectButton.setMessage(Component.translatable("text.autoreconnect.disconnect.reconnect"));
+        reconnectButton.setMessage(Component.translatable("Component.autoreconnect.disconnect.reconnect"));
         reconnectButton.setWidth(backButton.getWidth()); // reset to full width
     }
 
@@ -145,11 +145,11 @@ public class DisconnectedScreenMixin extends Screen {
     private void countdownCallback(int seconds) {
         if (seconds < 0) {
             // indicates that we're out of attempts
-            reconnectButton.setMessage(Component.translatable("text.autoreconnect.disconnect.reconnect_failed")
+            reconnectButton.setMessage(Component.translatable("Component.autoreconnect.disconnect.reconnect_failed")
                     .withStyle(s -> s.withColor(ChatFormatting.RED)));
             reconnectButton.active = false;
         } else {
-            reconnectButton.setMessage(Component.translatable("text.autoreconnect.disconnect.reconnect_in", seconds)
+            reconnectButton.setMessage(Component.translatable("Component.autoreconnect.disconnect.reconnect_in", seconds)
                     .withStyle(s -> s.withColor(ChatFormatting.GREEN)));
         }
     }
