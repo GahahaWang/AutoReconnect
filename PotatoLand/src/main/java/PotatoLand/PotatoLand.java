@@ -139,6 +139,10 @@ public class PotatoLand implements  ClientModInitializer{
 
     public static Consumer<String> sendCommandToServer;
 
+    private static void cancelFuture() {
+        if(future!= null)future.cancel(true);
+    }
+
     private static void checkPlayerStatus() {
         logger.info("checkPlayerStatus");
         LocalPlayer player = mc.player;
@@ -180,7 +184,7 @@ public class PotatoLand implements  ClientModInitializer{
 
     private static void atNone() {
         logger.info("玩家未連接至PotatoLand"); // should not happen normally
-        if(future!= null)future.cancel(true);
+        cancelFuture();
     }
 
     private static void atCorner() {
@@ -195,11 +199,15 @@ public class PotatoLand implements  ClientModInitializer{
         logger.info("玩家在 Lobby 狀態");
         // 在這裡添加 Lobby 狀態的處理邏輯
         justSendSurvivalTransferCommandByMod = true;
+        if (PotatoLandConfig.Config.last_survival_command.isEmpty()) {
+           logger.warn("沒有已儲存的 survival {1/2/3/vip}\n取消本次自動登入");
+            cancelFuture();
+        }
         sendCommandToServer.accept(PotatoLandConfig.Config.last_survival_command);
     }
 
     private static void atSurvival() {
         logger.info("玩家在 Survival 狀態");
-        if(future!= null)future.cancel(true);
+        cancelFuture();
     }
 }
