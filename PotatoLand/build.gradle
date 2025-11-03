@@ -1,0 +1,50 @@
+plugins {
+    id 'fabric-loom' version "1.12-SNAPSHOT"
+}
+
+group = project.maven_group
+version = project.mod_version
+
+java {
+    //withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+repositories {
+    mavenCentral()
+
+    maven { url "https://maven.shedaniel.me/" }
+
+    maven {
+        name = 'TerraformersMC'
+        url = 'https://maven.terraformersmc.com/'
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    
+    // 添加對 root project 的依賴
+    implementation project(':')
+}
+
+
+processResources {
+    inputs.property "id", project.mod_id
+    inputs.property "name", project.mod_name
+    inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
+    filesMatching("fabric.mod.json") {
+        expand([
+                "id": project.mod_id,
+                "name": project.mod_name,
+                "version": project.version,
+                "minecraft_version": project.minecraft_version,
+        ])
+    }
+}

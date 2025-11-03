@@ -28,13 +28,11 @@
     "autoreconnect.mixins.json"
   ],
   "depends": {
-    "java": ">=${java_version}",
     "fabric": "*",
-    "fabricloader": ">=${fabric_loader_version}",
     "minecraft": ">=${minecraft_version}",
-    "cloth-config2": ">=${clothconfig_version}"
+    "cloth-config2": "*"
   },
   "suggests": {
-    "modmenu": ">=${modmenu_version}"
+    "modmenu": "*"
   }
 }

@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.10-SNAPSHOT'
+    id 'fabric-loom' version "1.12-SNAPSHOT"
 }
 
 version = project.mod_version
@@ -37,10 +37,6 @@ processResources {
     inputs.property "name", project.mod_name
     inputs.property "version", project.version
     inputs.property "minecraft_version", project.minecraft_version
-    inputs.property "java_version", 21
-    inputs.property "fabric_loader_version", project.loader_version
-    inputs.property "modmenu_version", project.modmenu_version
-    inputs.property "clothconfig_version", project.clothconfig_version
 
     filesMatching("fabric.mod.json") {
         expand([
@@ -48,10 +44,6 @@ processResources {
             "name": project.mod_name,
             "version": project.version,
             "minecraft_version": project.minecraft_version,
-            "java_version": 21,
-            "fabric_loader_version": project.loader_version,
-            "modmenu_version": project.modmenu_version,
-            "clothconfig_version": project.clothconfig_version
         ])
     }
 }
@@ -60,10 +52,19 @@ java {
     // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
     // if it is present.
     // If you remove this line, sources will not be generated.
-    withSourcesJar()
+    //withSourcesJar()
 
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
+}
+
+// 配置共享的 source set，讓 subproject 可以訪問
+configurations {
+    sharedCompile
+}
+
+artifacts {
+    sharedCompile jar
 }
 
 jar {
